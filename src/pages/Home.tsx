@@ -29,23 +29,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import {
-  deleteTask,
-  selectTasks,
-  toggleCompleteState,
-  updateTask,
-} from "@/redux/features/task/taskSlice";
-import { selectUsers } from "@/redux/features/user/userSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+
 import type { ITask } from "@/types";
 import { format } from "date-fns";
 
 import { CalendarIcon, PenIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
-export default function TaskCard() {
+export default function Home() {
   const [editTask, setEditTask] = useState<ITask | null>(null);
   const editForm = useForm({
     defaultValues: {
@@ -70,43 +72,43 @@ export default function TaskCard() {
     }
   }, [editTask, editForm]);
 
-  const tasks = useAppSelector(selectTasks);
-  const dispatch = useAppDispatch();
-
-  const onEdit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(
-      updateTask({
-        ...(data as ITask),
-        id: editTask?.id || "",
-        dueDate: data.dueDate?.toISOString(),
-      })
-    );
-  };
-
-  const users = useAppSelector(selectUsers);
+  // const onEdit: SubmitHandler<FieldValues> = (data) => {
+  //   dispatch(
+  //     updateTask({
+  //       ...(data as ITask),
+  //       id: editTask?.id || "",
+  //       dueDate: data.dueDate?.toISOString(),
+  //     })
+  //   );
+  // };
+  const books = [];
 
   return (
     <>
       <TaskControl />
-      {tasks.map((task, idx) => {
-        const assignedUser = users.find((user) => user.id === task.assignUser);
-
+      {books.map((task, idx) => {
         return (
           <div key={idx} className="border px-5 py-3 rounded-md mb-5">
             <div className="flex justify-between items-center">
-              <div className="flex gap-2 items-center">
-                <div
-                  className={cn(
-                    "size-3 rounded-full",
-                    task.priority === "high" && "bg-green-500",
-                    task.priority === "medium" && "bg-yellow-300",
-                    task.priority === "low" && "bg-red-500"
-                  )}
-                ></div>
-                <h1 className={cn(task.isCompleted && "line-through")}>
-                  {task.title}
-                </h1>
-              </div>
+              <Table>
+                <TableCaption>A list of your recent invoices.</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Invoice</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Method</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium">INV001</TableCell>
+                    <TableCell>Paid</TableCell>
+                    <TableCell>Credit Card</TableCell>
+                    <TableCell className="text-right">$250.00</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
               <div className="flex gap-1 items-center">
                 <Dialog>
                   <DialogTrigger asChild>
@@ -126,7 +128,7 @@ export default function TaskCard() {
                     </DialogDescription>
                     <Form {...editForm}>
                       <form
-                        onSubmit={editForm.handleSubmit(onEdit)}
+                        // onSubmit={editForm.handleSubmit(onEdit)}
                         className="space-y-8"
                       >
                         <FormField
@@ -259,7 +261,7 @@ export default function TaskCard() {
                   </DialogContent>
                 </Dialog>
                 <Button
-                  onClick={() => dispatch(deleteTask(task.id))}
+                  // onClick={() => dispatch(deleteTask(task.id))}
                   variant="link"
                   className="p-0 text-red-500"
                 >
@@ -267,12 +269,11 @@ export default function TaskCard() {
                 </Button>
 
                 <Checkbox
-                  onClick={() => dispatch(toggleCompleteState(task.id))}
+                  // onClick={() => dispatch(toggleCompleteState(task.id))}
                   checked={task.isCompleted}
                 />
               </div>
             </div>
-            <p>Assigned to - {assignedUser ? assignedUser.name : "no one"}</p>
             <p className="mt-5">{task.description}</p>
           </div>
         );

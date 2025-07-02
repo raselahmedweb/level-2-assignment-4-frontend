@@ -1,5 +1,5 @@
 import App from "@/App";
-import TaskCard from "@/pages/Task";
+import Home from "@/pages/Home";
 import Users from "@/pages/Users";
 import { createBrowserRouter } from "react-router";
 
@@ -10,11 +10,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        Component: TaskCard,
+        Component: Home,
       },
       {
-        path: "/tasks",
-        Component: TaskCard,
+        path: "/books",
+        element: <div>(<h1>Books) < /h1></div > ` `,
       },
       {
         path: "users",
