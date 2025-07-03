@@ -1,49 +1,7 @@
-import TaskControl from "@/components/task-control";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+// import TaskControl from "@/components/task-control";
+import BookTable from "@/components/books-table";
+import { useGetBookQuery } from "@/redux/api/baseApi";
 
-import type { ITask } from "@/types";
-import { format } from "date-fns";
-
-import { CalendarIcon, PenIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -71,22 +29,34 @@ export default function Home() {
       });
     }
   }, [editTask, editForm]);
-
-  // const onEdit: SubmitHandler<FieldValues> = (data) => {
-  //   dispatch(
-  //     updateTask({
-  //       ...(data as ITask),
-  //       id: editTask?.id || "",
-  //       dueDate: data.dueDate?.toISOString(),
-  //     })
-  //   );
-  // };
-  const books = [];
+  const { data } = useGetBookQuery(undefined);
+  console.log(data);
 
   return (
-    <>
-      <TaskControl />
-      {books.map((task, idx) => {
+    <div>
+      <div className="relative h-72">
+        <div className="w-full h-full bg-black/80 absolute"></div>
+        <div className="w-full h-full flex flex-col gap-3 text-white justify-center items-center absolute text-center">
+          <h1 className="text-center text-xl md:text-3xl font-bold">
+            Minimal Library Management System 📚
+          </h1>
+          <p className="max-w-[500px] text-gray-300">
+            Explore and manage a collection of books. View books, add new book,
+            update book details, delete book, and borrow book. All in one simple
+            interface.
+          </p>
+        </div>
+        <img
+          className="w-full h-full"
+          src="https://static.vecteezy.com/system/resources/thumbnails/047/205/629/small/a-blurred-view-of-a-public-library-interior-with-defocused-bookshelves-ideal-for-business-or-education-backgrounds-photo.jpg"
+          alt="Library"
+        />
+      </div>
+      <div className="mx-4 md:mx-8">
+        <BookTable />
+      </div>
+      {/* <TaskControl /> */}
+      {/* {books.map((task, idx) => {
         return (
           <div key={idx} className="border px-5 py-3 rounded-md mb-5">
             <div className="flex justify-between items-center">
@@ -277,7 +247,7 @@ export default function Home() {
             <p className="mt-5">{task.description}</p>
           </div>
         );
-      })}
-    </>
+      })} */}
+    </div>
   );
 }

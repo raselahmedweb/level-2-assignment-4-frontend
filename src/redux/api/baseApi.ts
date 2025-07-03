@@ -1,16 +1,21 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define a service using a base URL and expected endpoints
-export const pokemonApi = createApi({
+export const baseApi = createApi({
   reducerPath: "baseApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
-  endpoints: (build) => ({
-    getBook: build.query({
-      query: () => `books`,
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+  endpoints: (builder) => ({
+    getBook: builder.query({
+      query: () => `/books`,
+    }),
+    createBook: builder.mutation({
+      query: (bookData) => ({
+        url: `/books`,
+        method: "POST",
+        body: bookData,
+      }),
     }),
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
-export const { useGetBookQuery } = pokemonApi;
+export const { useGetBookQuery, useCreateBookMutation } = baseApi;

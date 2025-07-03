@@ -1,14 +1,16 @@
-export interface ITask {
-  id: string;
+export interface IBook {
   title: string;
-  description: string;
-  priority: "low" | "medium" | "high";
-  dueDate: string;
-  isCompleted: boolean;
-  assignUser: string | null;
+  author: string;
+  genre: string;
+  isbn: string;
+  description?: string;
+  copies: number;
+  imageUrl?: string;
+  available: boolean;
 }
 
-export interface IUser {
-  id: string;
-  name: string;
+export interface IBorrow {
+  book: string;
+  quantity: number;
+  dueDate: Date;
 }
