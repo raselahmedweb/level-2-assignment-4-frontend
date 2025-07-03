@@ -22,43 +22,69 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateBookMutation } from "@/redux/api/baseApi";
-import type { IBook } from "@/types";
-import { useState } from "react";
+import {
+  useGetBookByIdQuery,
+  useUpdateBookMutation,
+} from "@/redux/api/baseApi";
+import { useEffect, useState } from "react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useParams } from "react-router";
 
-export default function CreateBook() {
+export default function UpdateBook() {
   const [open, setOpen] = useState(true);
-  const navigate = useNavigate();
-  const form = useForm();
+  const { id } = useParams();
+  const { data } = useGetBookByIdQuery(id, {
+    pollingInterval: 30000,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
 
-  const [createBook] = useCreateBookMutation();
+  const form = useForm({
+    defaultValues: {
+      title: data?.data?.title || "",
+      description: data?.data?.description || "",
+      author: data?.data?.author || "",
+      isbn: data?.data?.isbn || "",
+      genre: data?.data?.genre || "FICTION",
+      copies: data?.data?.copies || 0,
+      imageUrl: data?.data?.imageUrl || "",
+      available: data?.data?.available,
+    },
+  });
+  useEffect(() => {
+    if (data && data.data) {
+      form.reset({
+        title: data.data?.title || "",
+        description: data.data?.description || "",
+        author: data.data?.author || "",
+        isbn: data.data?.isbn || "",
+        genre: data.data?.genre || "FICTION",
+        copies: data.data?.copies || 0,
+        imageUrl: data.data?.imageUrl || "",
+        available: data.data?.available,
+      });
+    }
+  }, [data, form]);
+
+  const [updateBook] = useUpdateBookMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const bookData = {
-      ...(data as IBook),
-      available: true,
-      copies: Number(data.copies),
-    };
-    const res = await createBook(bookData).unwrap();
-    console.log("response from create book function", res);
-    form.reset();
-    setOpen(false);
-    navigate("/");
+    try {
+      const res = await updateBook({ ...data, _id: id }).unwrap();
+      console.log(res);
+    } catch (error) {
+      console.log(error, "error from update book function");
+    }
   };
+
   return (
     <div className="flex justify-center items-center mt-5">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button
-          //   onClick={() => setEditTask(task)}
-          >
-            Creat a book
-          </Button>
+          <Button>Edit Book</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <DialogTitle>Create a Book</DialogTitle>
+          <DialogTitle>Edit Book</DialogTitle>
           <DialogDescription className="sr-only">
             nothing here
           </DialogDescription>
@@ -128,44 +154,6 @@ export default function CreateBook() {
                   </FormItem>
                 )}
               />
-              {/* <FormField
-                control={form.control}
-                name="dueDate"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Due Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          // disabled={(date) => date < new Date("1900-01-01")}
-                          captionLayout="dropdown"
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </FormItem>
-                )}
-              /> */}
               <FormField
                 control={form.control}
                 name="genre"

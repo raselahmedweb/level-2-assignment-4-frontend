@@ -1,11 +1,14 @@
 // import TaskControl from "@/components/task-control";
 import BookTable from "@/components/books-table";
-import { useGetBookQuery } from "@/redux/api/baseApi";
+import { Button } from "@/components/ui/button";
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   const [editTask, setEditTask] = useState<ITask | null>(null);
   const editForm = useForm({
     defaultValues: {
@@ -29,8 +32,6 @@ export default function Home() {
       });
     }
   }, [editTask, editForm]);
-  const { data } = useGetBookQuery(undefined);
-  console.log(data);
 
   return (
     <div>
@@ -51,6 +52,15 @@ export default function Home() {
           src="https://static.vecteezy.com/system/resources/thumbnails/047/205/629/small/a-blurred-view-of-a-public-library-interior-with-defocused-bookshelves-ideal-for-business-or-education-backgrounds-photo.jpg"
           alt="Library"
         />
+      </div>
+      <div className="flex justify-between items-center mx-4 md:mx-8 my-3">
+        <h1
+          className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200"
+          style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)" }}
+        >
+          Books
+        </h1>
+        <Button onClick={() => navigate("/create-book")}>Create Book</Button>
       </div>
       <div className="mx-4 md:mx-8">
         <BookTable />
