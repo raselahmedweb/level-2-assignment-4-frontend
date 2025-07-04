@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { ModeToggle } from "../mode-toggle";
-import { BookIcon, MenuIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -28,32 +28,41 @@ function Navbar() {
             <ModeToggle />
           </div>
           <ul className="items-center gap-5 hidden md:flex ml-auto">
-            <li
-              className={cn(
-                "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
-                pathname.startsWith("/books") &&
-                  "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
-              )}
-            >
-              <Link to="/books">All Book</Link>
+            <li>
+              <Link
+                className={cn(
+                  "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
+                  pathname.startsWith("/books") &&
+                    "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
+                )}
+                to="/books"
+              >
+                All Book
+              </Link>
             </li>
-            <li
-              className={cn(
-                "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
-                pathname.startsWith("/create-book") &&
-                  "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
-              )}
-            >
-              <Link to="/create-book">Add Book</Link>
+            <li>
+              <Link
+                className={cn(
+                  "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
+                  pathname.startsWith("/create-book") &&
+                    "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
+                )}
+                to="/create-book"
+              >
+                Add Book
+              </Link>
             </li>
-            <li
-              className={cn(
-                "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
-                pathname.startsWith("/borrow-summary") &&
-                  "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
-              )}
-            >
-              <Link to="/borrow-summary">Borrow Summary</Link>
+            <li>
+              <Link
+                className={cn(
+                  "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
+                  pathname.startsWith("/borrow-summary") &&
+                    "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
+                )}
+                to="/borrow-summary"
+              >
+                Borrow Summary
+              </Link>
             </li>
             <li>
               <ModeToggle />
@@ -63,35 +72,41 @@ function Navbar() {
       </nav>
       {dropdown && (
         <ul className="items-center justify-center gap-8 row md:hidden mx-4 md:mx-8">
-          <li
-            onClick={() => setDropdown((p) => !p)}
-            className={cn(
-              "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
-              pathname.startsWith("/books") &&
-                "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
-            )}
-          >
-            <Link to="/books">All Book</Link>
+          <li onClick={() => setDropdown((p) => !p)}>
+            <Link
+              className={cn(
+                "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
+                pathname.startsWith("/books") &&
+                  "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
+              )}
+              to="/books"
+            >
+              All Book
+            </Link>
           </li>
-          <li
-            onClick={() => setDropdown((p) => !p)}
-            className={cn(
-              "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
-              pathname.startsWith("/create-book") &&
-                "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
-            )}
-          >
-            <Link to="/create-book">Add Book</Link>
+          <li onClick={() => setDropdown((p) => !p)}>
+            <Link
+              className={cn(
+                "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
+                pathname.startsWith("/create-book") &&
+                  "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
+              )}
+              to="/create-book"
+            >
+              Add Book
+            </Link>
           </li>
-          <li
-            onClick={() => setDropdown((p) => !p)}
-            className={cn(
-              "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
-              pathname.startsWith("/borrow-summary") &&
-                "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
-            )}
-          >
-            <Link to="/borrow-summary">Borrow Summary</Link>
+          <li onClick={() => setDropdown((p) => !p)}>
+            <Link
+              className={cn(
+                "rounded px-3 py-2 hover:text-primary-foreground hover:bg-green-500",
+                pathname.startsWith("/borrow-summary") &&
+                  "bg-green-500 text-primary-foreground shadow-xs hover:bg-primary/90"
+              )}
+              to="/borrow-summary"
+            >
+              Borrow Summary
+            </Link>
           </li>
         </ul>
       )}

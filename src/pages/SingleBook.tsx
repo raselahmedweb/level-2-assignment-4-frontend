@@ -3,8 +3,15 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useGetBookByIdQuery } from "@/redux/api/baseApi";
-import { useParams } from "react-router";
-import { Book, Users, Hash, CheckCircle, XCircle } from "lucide-react";
+import { useNavigate, useParams } from "react-router";
+import {
+  Book,
+  Users,
+  Hash,
+  CheckCircle,
+  XCircle,
+  ArrowLeftCircle,
+} from "lucide-react";
 
 export interface IBook {
   title: string;
@@ -18,12 +25,17 @@ export interface IBook {
 }
 
 export default function SingleBook() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data, isLoading, error } = useGetBookByIdQuery(id, {
     pollingInterval: 30000,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   if (isLoading) {
     return (
@@ -67,10 +79,17 @@ export default function SingleBook() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Button
+        onClick={goBack}
+        variant="link"
+        className="text-blue-500 hover:underline"
+      >
+        <ArrowLeftCircle />
+      </Button>
       <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
         {/* Book Image */}
         <div className="flex justify-center lg:justify-start">
-          <Card className="overflow-hidden max-w-md w-full">
+          <Card className="overflow-hidden max-w-md w-full py-0">
             {book.imageUrl ? (
               <img
                 src={book.imageUrl || "/placeholder.svg"}

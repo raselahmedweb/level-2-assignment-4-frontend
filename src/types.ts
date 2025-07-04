@@ -1,5 +1,5 @@
 export interface IBook {
-  _id?: string;
+  _id: string | "";
   title: string;
   author: string;
   genre: string;
@@ -14,4 +14,16 @@ export interface IBorrow {
   book: string;
   quantity: number;
   dueDate: Date;
+}
+
+export interface ApiError {
+  data: {
+    error: {
+      errors: {
+        [key: string]: {
+          message: string;
+        };
+      };
+    };
+  };
 }

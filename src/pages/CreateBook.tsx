@@ -23,17 +23,32 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateBookMutation } from "@/redux/api/baseApi";
-import type { IBook } from "@/types";
+import type { ApiError, IBook } from "@/types";
 import { useState } from "react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { Bounce, toast } from "react-toastify";
 
 export default function CreateBook() {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const form = useForm();
 
-  const [createBook] = useCreateBookMutation();
+  const [createBook, { isError, error }] = useCreateBookMutation();
+  if (isError) {
+    const getErrorMessage = (error: unknown): string => {
+      if (error && typeof error === "object" && "data" in error) {
+        const apiError = error as ApiError;
+        const errors = apiError.data?.error?.errors;
+        if (errors) {
+          const firstField = Object.keys(errors)[0];
+          return errors[firstField]?.message || "Something went wrong";
+        }
+      }
+      return "Something went wrong. Please try again.";
+    };
+    toast.error(getErrorMessage(error));
+  }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const bookData = {
@@ -42,10 +57,19 @@ export default function CreateBook() {
       copies: Number(data.copies),
     };
     const res = await createBook(bookData).unwrap();
-    console.log("response from create book function", res);
+    toast.success(res.message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Bounce,
+    });
     form.reset();
     setOpen(false);
-    navigate("/");
+    navigate("/books");
   };
   return (
     <div className="flex justify-center items-center mt-5">

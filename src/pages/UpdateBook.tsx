@@ -28,10 +28,12 @@ import {
 } from "@/redux/api/baseApi";
 import { useEffect, useState } from "react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { Bounce, toast } from "react-toastify";
 
 export default function UpdateBook() {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useGetBookByIdQuery(id, {
     pollingInterval: 30000,
@@ -71,7 +73,19 @@ export default function UpdateBook() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await updateBook({ ...data, _id: id }).unwrap();
-      console.log(res);
+      toast.success(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Bounce,
+      });
+      form.reset();
+      setOpen(false);
+      navigate("/books");
     } catch (error) {
       console.log(error, "error from update book function");
     }
@@ -217,7 +231,7 @@ export default function UpdateBook() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Create</Button>
+              <Button type="submit">Save</Button>
             </form>
           </Form>
         </DialogContent>
