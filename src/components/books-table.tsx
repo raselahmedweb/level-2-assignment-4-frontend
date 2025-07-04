@@ -12,14 +12,22 @@ import {
   TableRow,
 } from "./ui/table";
 import { useNavigate } from "react-router";
+import type { IBook } from "@/types";
 
 export default function BookTable() {
   const navigate = useNavigate();
-  const { data } = useGetBookQuery(undefined, {
-    pollingInterval: 30000,
-    refetchOnMountOrArgChange: true,
-    refetchOnReconnect: true,
-  });
+  const { data } = useGetBookQuery(
+    {
+      filter: "",
+      limit: 1,
+      skip: 0,
+    },
+    {
+      pollingInterval: 30000,
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+    }
+  );
 
   const [deleteBook] = useDeleteBookMutation();
 
@@ -71,9 +79,9 @@ export default function BookTable() {
         </TableHeader>
         <TableBody>
           {data &&
-            data.data.map((book) => {
+            data.data.map((book: IBook, index: number) => {
               return (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell>{book.title}</TableCell>
                   <TableCell>{book.author}</TableCell>
                   <TableCell>{book.genre}</TableCell>

@@ -1,6 +1,8 @@
 import App from "@/App";
+import AllBooks from "@/pages/AllBook";
 import CreateBook from "@/pages/CreateBook";
 import Home from "@/pages/Home";
+import SingleBook from "@/pages/SingleBook";
 import UpdateBook from "@/pages/UpdateBook";
 import { createBrowserRouter } from "react-router";
 
@@ -15,11 +17,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "books",
-        element: (
-          <div>
-            <h1>All Books</h1>
-          </div>
-        ),
+        Component: AllBooks,
       },
       {
         path: "create-book",
@@ -35,11 +33,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "books/:id",
-        element: (
-          <div>
-            <h1>Single book</h1>
-          </div>
-        ),
+        Component: SingleBook,
       },
       {
         path: "edit-book/:id",
