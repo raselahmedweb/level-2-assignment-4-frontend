@@ -13,17 +13,8 @@ import {
   ArrowLeftCircle,
 } from "lucide-react";
 import SuggestedBooks from "@/components/SuggestedBooks";
-
-export interface IBook {
-  title: string;
-  author: string;
-  genre: string;
-  isbn: string;
-  description?: string;
-  copies: number;
-  imageUrl?: string;
-  available: boolean;
-}
+import BorrowBook from "@/components/BorrowBook";
+import type { IBook } from "@/types";
 
 export default function SingleBook() {
   const navigate = useNavigate();
@@ -87,7 +78,7 @@ export default function SingleBook() {
       >
         <ArrowLeftCircle />
       </Button>
-      <div className="mb-5 flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mx-auto">
+      <div className="mb-5 flex flex-col md:flex-row justify-center items-start gap-4 md:gap-8 mx-auto">
         {/* Book Image */}
         <div className="flex justify-start">
           <div className="overflow-hidden border-0 w-max-md w-full h-auto py-0">
@@ -111,10 +102,12 @@ export default function SingleBook() {
         {/* Book Details */}
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-300 mb-2">
               {book.title}
             </h1>
-            <p className="text-xl text-gray-600 mb-4">by {book.author}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-4">
+              by {book.author}
+            </p>
 
             <div className="flex flex-wrap gap-2 mb-4">
               <Badge variant="secondary" className="text-sm">
@@ -141,20 +134,22 @@ export default function SingleBook() {
 
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <Hash className="h-5 w-5 text-gray-500" />
+              <Hash className="h-5 w-5 text-gray-500 dark:text-gray-200" />
               <div>
-                <p className="text-sm font-medium text-gray-500">ISBN</p>
-                <p className="text-gray-900">{book.isbn}</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-200">
+                  ISBN
+                </p>
+                <p className="text-gray-900 dark:text-gray-100">{book.isbn}</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <Users className="h-5 w-5 text-gray-500" />
+              <Users className="h-5 w-5 text-gray-500 dark:text-gray-200" />
               <div>
-                <p className="text-sm font-medium text-gray-500">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-200">
                   Available Copies
                 </p>
-                <p className="text-gray-900 font-semibold">
+                <p className="text-gray-900 dark:text-gray-100 font-semibold">
                   {book.copies} {book.copies === 1 ? "copy" : "copies"}
                 </p>
               </div>
@@ -165,10 +160,10 @@ export default function SingleBook() {
             <>
               <Separator />
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   Description
                 </h3>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   {book.description}
                 </p>
               </div>
@@ -180,13 +175,10 @@ export default function SingleBook() {
           {/* Borrow Button */}
           <div>
             {book.copies > 0 && book.available ? (
-              <Button size="lg" className="w-full sm:w-auto">
-                <Book className="w-4 h-4 mr-2" />
-                Borrow Book
-              </Button>
+              <BorrowBook available={true} book={book._id} />
             ) : (
               <div className="text-center sm:text-left">
-                <p className="text-gray-500 mb-2">
+                <p className="text-gray-500 dark:text-gray-200 mb-2">
                   {book.copies === 0
                     ? "No copies available"
                     : "Book currently unavailable"}

@@ -2,25 +2,16 @@
 
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { useGetBorrowedBooksSummaryQuery } from "@/redux/api/baseApi";
 import { Book, BarChart3 } from "lucide-react";
 import SuggestedBooks from "@/components/SuggestedBooks";
-
-interface BorrowedBookSummary {
-  book: {
-    title: string;
-    isbn: string;
-  };
-  totalQuantity: number;
-}
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import type { BorrowedBookSummary } from "@/types";
 
 export default function BorrowedBooksSummary() {
   const { data, isLoading, error } = useGetBorrowedBooksSummaryQuery(
@@ -91,39 +82,51 @@ export default function BorrowedBooksSummary() {
           </div>
         ) : (
           <>
-            <div className="hidden md:block">
-              <Table className="text-center">
-                <TableHeader className="bg-green-300 dark:bg-green-500 text-black text-center">
-                  <TableRow>
-                    <TableHead>Book Title</TableHead>
-                    <TableHead>ISBN</TableHead>
-                    <TableHead className="text-center">
-                      Total Quantity
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="text-center">
-                  {[...borrowedBooks]
-                    .sort((a, b) => b.totalQuantity - a.totalQuantity)
-                    .map((item) => (
-                      <TableRow key={item.book.isbn}>
-                        <TableCell className="font-medium">
-                          {item.book.title}
-                        </TableCell>
-                        <TableCell>
-                          <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">
-                            {item.book.isbn}
-                          </code>
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <Badge variant="secondary" className="font-semibold">
-                            {item.totalQuantity}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
+            <div className="hidden md:block mx-auto max-w-3xl w-full">
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full"
+                defaultValue={"0"}
+              >
+                {[...borrowedBooks]
+                  .sort((a, b) => b.totalQuantity - a.totalQuantity)
+                  .map((item, idx) => (
+                    <AccordionItem key={item.book.isbn} value={idx.toString()}>
+                      <AccordionTrigger>
+                        <div className="flex items-center justify-between">
+                          <h2 className="text-lg font-semibold">
+                            {item.book.title}
+                          </h2>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="flex flex-col gap-4 text-balance">
+                        <div className="flex flex-col gap-2">
+                          <div
+                            key={item.book.isbn}
+                            className="flex flex-col gap-3"
+                          >
+                            <span className="text-sm">
+                              ISBN :{" "}
+                              <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">
+                                {item.book.isbn}
+                              </code>
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              {item.totalQuantity} borrowed
+                            </span>
+                            <a
+                              href={`/books/${item.book.id}`}
+                              className="rounded text-center px-3 py-1 bg-green-50 dark:bg-gray-600 shadow w-30"
+                            >
+                              View Book
+                            </a>
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+              </Accordion>
             </div>
 
             <div className="md:hidden space-y-4">
@@ -148,6 +151,12 @@ export default function BorrowedBooksSummary() {
                               {item.totalQuantity} borrowed
                             </Badge>
                           </div>
+                          <a
+                            href={`/books/${item.book.id}`}
+                            className="rounded mt-3 block text-center px-3 py-1 bg-green-50 dark:bg-gray-950 shadow w-30"
+                          >
+                            View Book
+                          </a>
                         </div>
                       </div>
                     </div>

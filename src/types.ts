@@ -16,6 +16,15 @@ export interface IBorrow {
   dueDate: Date;
 }
 
+export interface BorrowedBookSummary {
+  book: {
+    id: string;
+    title: string;
+    isbn: string;
+  };
+  totalQuantity: number;
+}
+
 export interface ApiError {
   data: {
     error: {

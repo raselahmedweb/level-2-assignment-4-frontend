@@ -54,7 +54,9 @@ export default function SuggestedBooks() {
                   <h1 className="text-xl font-bold text-gray-900 dark:text-gray-300 mb-2">
                     {book.title}
                   </h1>
-                  <p className="text-xl text-gray-600 mb-4">by {book.author}</p>
+                  <p className="text-xl text-gray-600 dark:text-gray-300 mb-4">
+                    by {book.author}
+                  </p>
 
                   <div className="flex flex-wrap gap-2 mb-4">
                     <Badge variant="secondary" className="text-sm">

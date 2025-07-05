@@ -10,7 +10,7 @@ function Navbar() {
   const { pathname } = useLocation();
   return (
     <>
-      <nav className="py-2 border-b border-b-gray-300 dark:border-b-gray-900">
+      <nav className="py-2 bg-green-50 dark:bg-gray-900 border-b border-b-gray-300 dark:border-b-gray-900">
         <div className="flex items-center mx-4 md:mx-8">
           <Link
             to="/"

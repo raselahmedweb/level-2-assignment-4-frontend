@@ -3,7 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // Define a service using a base URL and expected endpoints
 export const baseApi = createApi({
   reducerPath: "baseApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://level-2-assignment-3-rouge.vercel.app/api",
+  }),
   tagTypes: ["Book"],
   endpoints: (builder) => ({
     getBook: builder.query({
@@ -13,6 +15,7 @@ export const baseApi = createApi({
     }),
     getBookById: builder.query({
       query: (id) => `/books/${id}`,
+      providesTags: ["Book"],
     }),
     createBook: builder.mutation({
       query: (bookData) => ({

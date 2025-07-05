@@ -68,7 +68,7 @@ export default function CreateBook() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 mx-auto w-full md:w-[500px] bg-green-50 dark:bg-green-950 rounded-md p-5"
+          className="space-y-4 mx-auto w-full md:w-[500px] bg-green-50 dark:bg-gray-900 rounded-md p-5"
         >
           <h2 className="text-xl font-bold">Create a book</h2>
           <FormField
