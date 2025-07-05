@@ -12,6 +12,7 @@ import {
   XCircle,
   ArrowLeftCircle,
 } from "lucide-react";
+import SuggestedBooks from "@/components/SuggestedBooks";
 
 export interface IBook {
   title: string;
@@ -78,21 +79,24 @@ export default function SingleBook() {
   const book: IBook = data.data;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mx-auto px-4 md:px-8 mb-10">
       <Button
         onClick={goBack}
         variant="link"
-        className="text-blue-500 hover:underline"
+        className="text-green-500 hover:underline"
       >
         <ArrowLeftCircle />
       </Button>
-      <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="mb-5 flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mx-auto">
         {/* Book Image */}
-        <div className="flex justify-center lg:justify-start">
-          <Card className="overflow-hidden max-w-md w-full py-0">
+        <div className="flex justify-start">
+          <div className="overflow-hidden border-0 w-max-md w-full h-auto py-0">
             {book.imageUrl ? (
               <img
-                src={book.imageUrl || "/placeholder.svg"}
+                src={
+                  book.imageUrl ||
+                  "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
+                }
                 alt={book.title}
                 className="w-full h-auto object-cover rounded-lg"
               />
@@ -101,7 +105,7 @@ export default function SingleBook() {
                 <Book className="h-24 w-24 text-gray-400" />
               </div>
             )}
-          </Card>
+          </div>
         </div>
 
         {/* Book Details */}
@@ -174,7 +178,7 @@ export default function SingleBook() {
           <Separator />
 
           {/* Borrow Button */}
-          <div className="pt-4">
+          <div>
             {book.copies > 0 && book.available ? (
               <Button size="lg" className="w-full sm:w-auto">
                 <Book className="w-4 h-4 mr-2" />
@@ -201,6 +205,7 @@ export default function SingleBook() {
           </div>
         </div>
       </div>
+      <SuggestedBooks />
     </div>
   );
 }

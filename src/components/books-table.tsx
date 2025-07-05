@@ -16,6 +16,7 @@ import { Card } from "./ui/card";
 import { XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import Pagination from "./ui/pagination";
+import BorrowBook from "@/components/BorrowBook";
 
 export default function BookTable(props: { items: number }) {
   const navigate = useNavigate();
@@ -76,14 +77,14 @@ export default function BookTable(props: { items: number }) {
   };
   if (isLoading) {
     return (
-      <div className="p-8">
+      <div className="px-4 md:px-8 mt-4">
         <div className="animate-pulse space-y-4">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="flex space-x-4">
-              <div className="h-4 bg-gray-200 rounded flex-1"></div>
-              <div className="h-4 bg-gray-200 rounded w-24"></div>
-              <div className="h-4 bg-gray-200 rounded w-20"></div>
-              <div className="h-4 bg-gray-200 rounded w-16"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded flex-1"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
             </div>
           ))}
         </div>
@@ -111,13 +112,18 @@ export default function BookTable(props: { items: number }) {
     <>
       <div
         className={
-          data.totalBooks > 11 && props.items > 6
+          data && data.totalBooks > 11 && props.items > 6
             ? "hidden md:flex justify-between items-center"
             : "hidden"
         }
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">All Books</h1>
+          <h1
+            className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200"
+            style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)" }}
+          >
+            All Books
+          </h1>
         </div>
 
         <Pagination
@@ -128,7 +134,6 @@ export default function BookTable(props: { items: number }) {
       </div>
       <div className="hidden md:block mb-2">
         <Table className="text-center">
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader className="bg-green-300 dark:bg-green-500 text-black text-center">
             <TableRow>
               <TableHead className="text-black">Title</TableHead>
@@ -149,33 +154,33 @@ export default function BookTable(props: { items: number }) {
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.author}</TableCell>
                     <TableCell>{book.genre}</TableCell>
-                    <TableCell>{book.isbn}</TableCell>
+                    <TableCell>
+                      <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">
+                        {book.isbn}
+                      </code>
+                    </TableCell>
                     <TableCell>{book.copies}</TableCell>
                     <TableCell>
                       {book.available ? "Available" : "Not Available"}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="flex justify-center gap-2">
                       <Button
                         onClick={() => navigate(`/books/${book._id}`)}
                         variant="outline"
-                        className="mr-2"
                       >
                         View
                       </Button>
                       <Button
                         onClick={() => navigate(`/edit-book/${book._id}`)}
-                        className="mr-2"
                       >
                         Edit
                       </Button>
-                      <Button
-                        disabled={!book.available}
-                        variant={book.available ? "outline" : "secondary"}
-                        onClick={() => navigate(`/borrow/${book._id}`)}
-                        className="mr-2"
-                      >
-                        Borrow
-                      </Button>
+                      <div>
+                        <BorrowBook
+                          book={book._id}
+                          available={book.available}
+                        />
+                      </div>
                       <Button
                         onClick={() => handleDelete(book._id)}
                         variant="destructive"
@@ -196,27 +201,32 @@ export default function BookTable(props: { items: number }) {
           onHandleCurrentPage={setCurrentPage}
         />
       </div>
-      <div className="md:hidden mb-2">
-        <div className="flex flex-wrap justify-center sm:justify-between items-center">
-          {data && data.data.length === 0 ? (
+      <div className="md:hidden mb-3">
+        <div className="flex flex-wrap justify-center gap-2 items-center">
+          {data.data.length === 0 ? (
             <p className="text-center">No books available</p>
           ) : (
             data.data.map((book: IBook, index: number) => {
               return (
                 <div
                   key={index}
-                  className="border w-full mb-3 sm:w-[325px] p-3 rounded-md"
+                  className="border w-full sm:w-[325px] p-3 rounded-xl"
                 >
                   <h3 className="font-bold">{book.title}</h3>
                   <p>Author: {book.author}</p>
                   <p>Genre: {book.genre}</p>
-                  <p>ISBN: {book.isbn}</p>
+                  <p>
+                    ISBN:{" "}
+                    <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">
+                      {book.isbn}
+                    </code>
+                  </p>
                   <p>Copies: {book.copies}</p>
                   <p>
                     Availability:{" "}
                     {book.available ? "Available" : "Not Available"}
                   </p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-2">
                     <Button
                       onClick={() => navigate(`/books/${book._id}`)}
                       variant="outline"
@@ -226,13 +236,7 @@ export default function BookTable(props: { items: number }) {
                     <Button onClick={() => navigate(`/edit-book/${book._id}`)}>
                       Edit
                     </Button>
-                    <Button
-                      disabled={!book.available}
-                      variant={book.available ? "outline" : "secondary"}
-                      onClick={() => navigate(`/borrow/${book._id}`)}
-                    >
-                      Borrow
-                    </Button>
+                    <BorrowBook book={book._id} available={book.available} />
                     <Button
                       onClick={() => handleDelete(book._id)}
                       variant="destructive"

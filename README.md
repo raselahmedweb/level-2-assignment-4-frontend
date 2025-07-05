@@ -1,69 +1,64 @@
-# React + TypeScript + Vite
+# 📚 Minimal Library Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and minimal library management system built using modern web technologies. This app allows users to **create**, **update**, **delete**, and **borrow** books — all without the need for login or authentication.
 
-Currently, two official plugins are available:
+> ⚠️ This is a demo application intended for learning and experimentation purposes. Authentication and user management are **not** included.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 📖 Add new books with details
+- ✏️ Edit existing books
+- ❌ Delete books
+- 📦 Borrow books
+- 🔄 Real-time state management with Redux
+- 💅 Styled with ShadCN and Tailwind CSS
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 🛠 Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Frontend**
+
+- React
+- Redux Toolkit
+- ShadCN UI
+- Tailwind CSS
+
+**Backend**
+
+- Node.js
+- Express
+- MongoDB with Mongoose
+
+---
+
+## 🔗 Live Demo
+
+👉 [Visit Live Website](https://library-manage.raseldev.com/)
+
+---
+
+## 🧪 Installation
+
+### Prerequisites
+
+- Node.js & npm
+- MongoDB (local or cloud e.g., MongoDB Atlas)
+
+### Clone the repo
+
+Frontend
+
+```bash
+git clone https://github.com/raselahmedweb/level-2-assignment-4-frontend
+cd level-2-assignment-4-frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Backend
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/raselahmedweb/level-2-assignment-3
+cd level-2-assignment-3
 ```

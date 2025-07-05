@@ -1,6 +1,8 @@
 import App from "@/App";
 import AllBooks from "@/pages/AllBook";
+import BorrowedBooksSummary from "@/pages/BorrowSummary";
 import CreateBook from "@/pages/CreateBook";
+import ErrorPage from "@/pages/error-page";
 import Home from "@/pages/Home";
 import SingleBook from "@/pages/SingleBook";
 import UpdateBook from "@/pages/UpdateBook";
@@ -9,6 +11,7 @@ import { createBrowserRouter } from "react-router";
 export const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <ErrorPage />,
     Component: App,
     children: [
       {
@@ -25,11 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "borrow-summary",
-        element: (
-          <div>
-            <h1>Borrow summary</h1>
-          </div>
-        ),
+        Component: BorrowedBooksSummary,
       },
       {
         path: "books/:id",
